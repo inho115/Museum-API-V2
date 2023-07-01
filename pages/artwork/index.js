@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import useSWR from "swr";
 import Error from "next/error";
-import { Row, Card, Pagination } from "react-bootstrap";
+import { Row, Col, Card, Pagination, Container } from "react-bootstrap";
+import ArtworkCard from "@/components/ArtworkCard";
 
 export default function ArtWork() {
   const [artworkList, setArtworkList] = useState();
@@ -28,7 +29,7 @@ export default function ArtWork() {
 
   useEffect(() => {
     if (data != null || data != undefined) {
-      results = [];
+      const results = [];
       for (let i = 0; i < data?.objectIDs?.length; i += PER_PAGE) {
         const chunk = data?.objectIDs.slice(i, i + PER_PAGE);
         results.push(chunk);
@@ -36,42 +37,52 @@ export default function ArtWork() {
       setArtworkList(results);
       setPage(1);
     }
-  });
+  }, [data]);
 
   if (error) {
     return <Error statusCode={404} />;
   }
 
-  if (artworkList != null || artworkList != undefined) {
+  if (artworkList != null && artworkList != undefined) {
     return (
       <>
-        <Row className="gy-4">
-          {artworkList.length > 0
-            ? [page - 1].map((artwork) => {
-                return (
-                  <Col lg={3} key={artwork.objectID}>
-                    <ArtworkCard objectID={artwork.objectID} />
-                  </Col>
-                );
-              })
-            : ""}
-          {artworkList.length == 0 ? (
-            <Card>
-              <Card.Text>
-                <h4>Nothing Here</h4>
-              </Card.Text>
-            </Card>
-          ) : (
-            ""
-          )}
-        </Row>
         {artworkList.length > 0 ? (
           <Row>
-            <Pagination>
-              <Pagination.Prev onClick={previousPage}></Pagination.Prev>
-              <Pagination.Item>{page}</Pagination.Item>
-              <Pagination.Next onClick={nextPage}></Pagination.Next>
-            </Pagination>
+            {artworkList[page - 1].map((artwork) => {
+              return (
+                <Col lg={3} key={artwork}>
+                  <ArtworkCard objectID={artwork} />
+                </Col>
+              );
+            })}
+          </Row>
+        ) : (
+          ""
+        )}
+        {artworkList.length == 0 ? (
+          <Card>
+            <Card.Body>
+              <Card.Text>
+                <p>
+                  <h4>Nothing Here</h4>
+                  Try searching for something else.
+                </p>
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        ) : (
+          ""
+        )}
+        {artworkList.length > 0 ? (
+          <Row>
+            <Col>
+              <br />
+              <Pagination>
+                <Pagination.Prev onClick={previousPage}></Pagination.Prev>
+                <Pagination.Item>{page}</Pagination.Item>
+                <Pagination.Next onClick={nextPage}></Pagination.Next>
+              </Pagination>
+            </Col>
           </Row>
         ) : (
           ""

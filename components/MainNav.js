@@ -1,35 +1,22 @@
-import {
-  Nav,
-  Navbar,
-  Container,
-  NavDropdown,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Nav, Navbar, Container, Form, Button } from "react-bootstrap";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 export default function MainNav() {
   const router = useRouter();
+  const [searchField, setSearchField] = useState();
 
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      searchField: "Search",
-    },
-  });
-
-  function submitForm(data) {
-    router.push(`/artwork?title=true&q=${data.searchField}`);
+  function submitForm(e) {
+    e.preventDefault();
+    router.push(`/artwork?title=true&q=${searchField}`);
   }
 
   return (
-    <>
+    <Container>
       <Navbar
         expand="lg"
-        className="fixed-top text-light"
-        data-bs-theme="light"
-        bg="dark"
+        className="fixed-top navbar-expand-lg bg-dark navbar-dark"
       >
         <Container>
           <Navbar.Brand>
@@ -49,12 +36,14 @@ export default function MainNav() {
                 </Nav.Link>
               </Link>
             </Nav>
-            <Form onSubmit={handleSubmit(submitForm)} className="d-flex">
+            <Form onSubmit={submitForm} className="d-flex">
               <Form.Control
                 type="search"
                 placeholder="Search"
                 className="me-2"
-                {...register("searchField")}
+                name="searchField"
+                aria-label="Search"
+                onChange={(e) => setSearchField(e.target.value)}
               />
               <Button variant="success" type="submit">
                 Search
@@ -65,6 +54,7 @@ export default function MainNav() {
       </Navbar>
       <br />
       <br />
-    </>
+      <br />
+    </Container>
   );
 }

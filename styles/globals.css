@@ -1,9 +1,8 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+.container nav {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
-.navbar span {
-  color: white;
+.card-text p {
+  margin-bottom: 0;
 }

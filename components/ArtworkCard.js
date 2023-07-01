@@ -1,12 +1,13 @@
 import useSWR from "swr";
 import Error from "next/error";
-import Card from "react-bootstrap/Card";
+import { Card, Button } from "react-bootstrap";
 import Link from "next/link";
 
-export default async function ArtworkCard(props) {
-  const { data, error, isLoading } = useSWR(
+export default function ArtworkCard(props) {
+  const { data, error } = useSWR(
     `https://collectionapi.metmuseum.org/public/collection/v1/objects/${props.objectID}`
   );
+
   if (error) {
     return <Error statusCode={404} />;
   }
@@ -21,17 +22,31 @@ export default async function ArtworkCard(props) {
               : `https://via.placeholder.com/375x375.png?text=[+Not+Available+]`
           }
         />
-        <Card.Title>
-          <p>{data.title ? data.title : "N/A"}</p>
-        </Card.Title>
-        <Card.Text>
-          <p>{data.objectDate ? data.objectDate : "N/A"}</p>
-          <p>{data.classification ? data.classification : "N/A"}</p>
-          <p>{data.medium ? data.medium : "N/A"}</p>
-          <Link passHref href={`/artwork/${props.objectID}`}>
-            <Button>{props.objectID}</Button>
-          </Link>
-        </Card.Text>
+        <Card.Body>
+          <Card.Title>
+            <p>{data.title ? data.title : "N/A"}</p>
+          </Card.Title>
+          <Card.Text>
+            <p>
+              <strong>Date: </strong>
+              {data.objectDate ? data.objectDate : "N/A"}
+              <br />
+              <strong>Classification: </strong>
+              {data.classification ? data.classification : "N/A"}
+              <br />
+              <strong>Medium: </strong>
+              {data.medium ? data.medium : "N/A"}
+              <br />
+              <br />
+            </p>
+
+            <Link passHref href={`/artwork/${props.objectID}`}>
+              <Button variant="outline-dark">
+                <strong>ID: </strong> {props.objectID}
+              </Button>
+            </Link>
+          </Card.Text>
+        </Card.Body>
       </Card>
     );
   } else {
