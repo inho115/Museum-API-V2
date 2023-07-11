@@ -6,3 +6,7 @@
 .card-text p {
   margin-bottom: 0;
 }
+
+button.favouriteBtn {
+  margin-left: 1rem;
+}

@@ -1,4 +1,11 @@
-import { Nav, Navbar, Container, Form, Button } from "react-bootstrap";
+import {
+  Nav,
+  Navbar,
+  Container,
+  Form,
+  Button,
+  NavDropdown,
+} from "react-bootstrap";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -6,36 +13,50 @@ import { useState } from "react";
 export default function MainNav() {
   const router = useRouter();
   const [searchField, setSearchField] = useState();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   function submitForm(e) {
     e.preventDefault();
+    setIsExpanded(false);
+    console.log(searchField);
     router.push(`/artwork?title=true&q=${searchField}`);
+  }
+
+  function toggleExpand() {
+    console.log(isExpanded);
+    setIsExpanded(isExpanded != true);
+    console.log(isExpanded);
   }
 
   return (
     <Container>
       <Navbar
         expand="lg"
+        expanded={isExpanded}
         className="fixed-top navbar-expand-lg bg-dark navbar-dark"
       >
         <Container>
           <Navbar.Brand>
             <span>IN HO HAN</span>
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle
+            aria-controls="basic-navbar-nav"
+            onClick={toggleExpand}
+          />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Link href="/" legacyBehavior passHref>
-                <Nav.Link>
+                <Nav.Link onClick={toggleExpand}>
                   <span>Home</span>
                 </Nav.Link>
               </Link>
               <Link href="/search" legacyBehavior passHref>
-                <Nav.Link>
+                <Nav.Link onClick={toggleExpand}>
                   <span>Advanced Search</span>
                 </Nav.Link>
               </Link>
             </Nav>
+            &nbsp;
             <Form onSubmit={submitForm} className="d-flex">
               <Form.Control
                 type="search"
@@ -49,6 +70,16 @@ export default function MainNav() {
                 Search
               </Button>
             </Form>
+            &nbsp;
+            <Nav>
+              <NavDropdown title="User Name" id="basic-nav-dropdown">
+                <Link href="/favourites" legacyBehavior passHref>
+                  <NavDropdown.Item onClick={toggleExpand}>
+                    Favourites
+                  </NavDropdown.Item>
+                </Link>
+              </NavDropdown>
+            </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>

@@ -16,6 +16,8 @@ export default function ArtWork() {
     `https://collectionapi.metmuseum.org/public/collection/v1/search?${finalQuery}`
   );
 
+  console.log(finalQuery);
+  console.log(data);
   function previousPage() {
     if (page > 1) {
       setPage(page - 1);
@@ -34,11 +36,12 @@ export default function ArtWork() {
       let filteredResults = validObjectIDList.objectIDs.filter((x) =>
         data.objectIDs?.includes(x)
       );
-      for (let i = 0; i < validObjectIDList.length; i += PER_PAGE) {
-        const chunk = validObjectIDList.slice(i, i + PER_PAGE);
+      for (let i = 0; i < filteredResults.length; i += PER_PAGE) {
+        const chunk = filteredResults.slice(i, i + PER_PAGE);
         results.push(chunk);
       }
       setArtworkList(results);
+      console.log("filtered", filteredResults);
       setPage(1);
     }
   }, [data]);
@@ -53,6 +56,7 @@ export default function ArtWork() {
         {artworkList.length > 0 ? (
           <Row>
             {artworkList[page - 1].map((artwork) => {
+              console.log("Art", artwork);
               return (
                 <Col lg={3} key={artwork}>
                   <ArtworkCard objectID={artwork} />
