@@ -9,23 +9,26 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { searchHistoryAtom } from "@/store";
+import { useAtom } from "jotai";
 
 export default function MainNav() {
   const router = useRouter();
   const [searchField, setSearchField] = useState();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
 
   function submitForm(e) {
     e.preventDefault();
     setIsExpanded(false);
     console.log(searchField);
+    setSearchHistory((current) => [...current, searchField]);
+    console.log(searchHistory);
     router.push(`/artwork?title=true&q=${searchField}`);
   }
 
   function toggleExpand() {
-    console.log(isExpanded);
     setIsExpanded(isExpanded != true);
-    console.log(isExpanded);
   }
 
   return (
@@ -46,12 +49,18 @@ export default function MainNav() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Link href="/" legacyBehavior passHref>
-                <Nav.Link onClick={toggleExpand}>
+                <Nav.Link
+                  onClick={toggleExpand}
+                  active={router.pathname === "/"}
+                >
                   <span>Home</span>
                 </Nav.Link>
               </Link>
               <Link href="/search" legacyBehavior passHref>
-                <Nav.Link onClick={toggleExpand}>
+                <Nav.Link
+                  onClick={toggleExpand}
+                  active={router.pathname === "/search"}
+                >
                   <span>Advanced Search</span>
                 </Nav.Link>
               </Link>
@@ -74,8 +83,19 @@ export default function MainNav() {
             <Nav>
               <NavDropdown title="User Name" id="basic-nav-dropdown">
                 <Link href="/favourites" legacyBehavior passHref>
-                  <NavDropdown.Item onClick={toggleExpand}>
+                  <NavDropdown.Item
+                    onClick={toggleExpand}
+                    active={router.pathname === "/favourites"}
+                  >
                     Favourites
+                  </NavDropdown.Item>
+                </Link>
+                <Link href="/history" legacyBehavior passHref>
+                  <NavDropdown.Item
+                    onClick={toggleExpand}
+                    active={router.pathname === "/history"}
+                  >
+                    History
                   </NavDropdown.Item>
                 </Link>
               </NavDropdown>

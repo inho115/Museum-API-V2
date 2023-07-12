@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 export default function ArtworkById() {
   const router = useRouter();
   const { objectId } = router.query;
-  console.log(objectId);
 
   return (
     <Row>
