@@ -4,7 +4,7 @@
  *  No part of this assignment has been copied manually or electronically from any other source
  *  (including web sites) or distributed to other students.
  *
- *  Name: IN HO HAN Student ID: 106053218 Date: 2023/07/09
+ *  Name: IN HO HAN Student ID: 106053218 Date: 2023/07/12
  *  Railway URL: https://metropolitanmuseumapi.up.railway.app/
  *
  ********************************************************************************/
@@ -20,6 +20,7 @@ export default function Home() {
             src="https://upload.wikimedia.org/wikipedia/commons/3/30/Metropolitan_Museum_of_Art_%28The_Met%29_-_Central_Park%2C_NYC.jpg"
             fluid
             rounded
+            alt="Image of Metropolitan Museum of Art"
           />
           <br />
           <br />

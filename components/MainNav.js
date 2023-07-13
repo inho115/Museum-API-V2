@@ -21,8 +21,7 @@ export default function MainNav() {
   function submitForm(e) {
     e.preventDefault();
     setIsExpanded(false);
-    console.log(searchField);
-    setSearchHistory((current) => [...current, searchField]);
+    setSearchHistory((current) => [...current, `title=true&q=${searchField}`]);
     console.log(searchHistory);
     router.push(`/artwork?title=true&q=${searchField}`);
   }

@@ -21,6 +21,7 @@ export default function ArtworkCard(props) {
               ? data.primaryImageSmall
               : `https://via.placeholder.com/375x375.png?text=[+Not+Available+]`
           }
+          alt={data.title}
         />
         <Card.Body>
           <Card.Title>

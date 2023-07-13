@@ -14,7 +14,6 @@ export default function History() {
     let params = new URLSearchParams(h);
     let entries = params.entries();
     parsedHistory.push(Object.fromEntries(entries));
-    console.log("parse", parsedHistory);
   });
 
   function historyClicked(e, index) {
@@ -46,10 +45,15 @@ export default function History() {
       <ListGroup>
         {parsedHistory.map((historyItem, index) => (
           <ListGroup.Item
-            onClick={historyClicked(index)}
+            key={index}
+            onClick={(e) => historyClicked(e, index)}
             className={styles.historyListItem}
           >
-            <strong>{historyItem[index]}</strong>&nbsp;
+            {Object.keys(historyItem).map((key) => (
+              <>
+                {key}: <strong>{historyItem[key]}</strong>&nbsp;
+              </>
+            ))}
             <Button
               className="float-end"
               variant="danger"
