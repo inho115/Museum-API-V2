@@ -10,3 +10,12 @@
 button.favouriteBtn {
   margin-left: 1rem;
 }
+
+div .navbar-nav .nav-link.active {
+  color: yellow;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: inherit;
+}
