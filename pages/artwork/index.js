@@ -97,5 +97,6 @@ export default function ArtWork() {
 
   if (artworkList == null || artworkList == undefined) {
     return null;
+    console.log("testing new branch");
   }
 }
